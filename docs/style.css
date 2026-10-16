@@ -1,0 +1,8 @@
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1d2433;line-height:1.55;background:#f7f8fa}
+a{color:#0b5cad}header{background:#12324f;color:#fff;padding:14px 20px}header a{color:#fff;text-decoration:none;margin-right:16px}
+.logo{font-weight:800;font-size:1.15em}.wrap{max-width:1000px;margin:0 auto;padding:20px}.hero{background:#fff;border-radius:12px;padding:28px;margin:18px 0}
+h1{margin:.2em 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}.card{background:#fff;border:1px solid #e3e7ee;border-radius:10px;padding:14px}
+.card h3{margin:.1em 0 .3em;font-size:1.05em}.muted{color:#5b6475;font-size:.92em}.btn{display:inline-block;background:#e8742b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;border:0;cursor:pointer;font-size:1em}
+.tier{background:#fff;border:2px solid #e3e7ee;border-radius:12px;padding:18px}.tier.hot{border-color:#e8742b}.price{font-size:1.6em;font-weight:800}
+input,textarea,select{width:100%;padding:9px;margin:4px 0 10px;border:1px solid #c9d0db;border-radius:6px;box-sizing:border-box;font:inherit}
+footer{color:#5b6475;font-size:.85em;padding:30px 20px;text-align:center}.pill{display:inline-block;background:#eef3f9;border-radius:20px;padding:4px 10px;margin:3px;font-size:.9em;text-decoration:none}
