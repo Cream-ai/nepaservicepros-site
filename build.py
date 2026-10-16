@@ -12,20 +12,42 @@ R=list(csv.DictReader(open('data/businesses.csv')))
 OUT='docs'
 if os.path.isdir(OUT): shutil.rmtree(OUT)
 pages=[]
-CSS="""body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1d2433;line-height:1.55;background:#f7f8fa}
-a{color:#0b5cad}header{background:#12324f;color:#fff;padding:14px 20px}header a{color:#fff;text-decoration:none;margin-right:16px}
-.logo{font-weight:800;font-size:1.15em}.wrap{max-width:1000px;margin:0 auto;padding:20px}.hero{background:#fff;border-radius:12px;padding:28px;margin:18px 0}
-h1{margin:.2em 0}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}.card{background:#fff;border:1px solid #e3e7ee;border-radius:10px;padding:14px}
-.card h3{margin:.1em 0 .3em;font-size:1.05em}.muted{color:#5b6475;font-size:.92em}.btn{display:inline-block;background:#e8742b;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;border:0;cursor:pointer;font-size:1em}
-.tier{background:#fff;border:2px solid #e3e7ee;border-radius:12px;padding:18px}.tier.hot{border-color:#e8742b}.price{font-size:1.6em;font-weight:800}
-input,textarea,select{width:100%;padding:9px;margin:4px 0 10px;border:1px solid #c9d0db;border-radius:6px;box-sizing:border-box;font:inherit}
-footer{color:#5b6475;font-size:.85em;padding:30px 20px;text-align:center}.pill{display:inline-block;background:#eef3f9;border-radius:20px;padding:4px 10px;margin:3px;font-size:.9em;text-decoration:none}"""
+CSS=r"""@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;700;800&display=swap');
+:root{--g:#0d3b2e;--g2:#0f5c4a;--amb:#f2b544;--org:#c25a1c;--ink:#1c2a24;--mut:#55635c;--bg:#fbf8f2;--line:#e5dfd1;--sh:0 1px 2px rgba(30,40,30,.04),0 8px 24px rgba(30,40,30,.06)}
+*{box-sizing:border-box}body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:var(--ink);line-height:1.6;background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:var(--g2)}h1,h2,h3{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em;line-height:1.15}
+header{background:linear-gradient(160deg,var(--g),var(--g2));color:#fff;padding:14px max(20px,calc(50% - 540px));display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;box-shadow:0 2px 12px rgba(0,0,0,.15);position:sticky;top:0;z-index:5}
+header a{color:#e6f0eb;text-decoration:none;font-weight:500;font-size:.95em}header a:hover{color:#fff;text-decoration:underline;text-underline-offset:4px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:1.25em!important;color:#fff!important;margin-right:auto}.logo svg{width:32px;height:32px}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 40px}
+.hero{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;margin:12px 0 28px;box-shadow:var(--sh)}
+.wrap>.hero:first-child{background:radial-gradient(700px 380px at 95% 0,#1e7a61 0,transparent 60%),linear-gradient(160deg,var(--g),var(--g2) 65%,#16705a);color:#fff;border:0;padding:56px 40px;box-shadow:0 24px 60px rgba(13,59,46,.25)}
+.wrap>.hero:first-child .muted{color:#d5e6de}.wrap>.hero:first-child a{color:var(--amb)}
+.wrap>.hero:first-child:after{content:"";position:absolute;right:-30px;bottom:-40px;width:300px;height:180px;opacity:.18;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 180'%3E%3Cpath d='M0 180l80-110 50 60 40-50 130 100z' fill='%23f2b544'/%3E%3C/svg%3E") no-repeat center/contain}
+h1{margin:.15em 0 .35em;font-size:clamp(1.9rem,4.2vw,3rem)}h2{font-size:clamp(1.4rem,2.6vw,1.9rem);margin:1.6em 0 .6em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--amb);border-radius:14px;padding:16px 18px;box-shadow:var(--sh);transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(30,40,30,.1)}
+.card h3{margin:.1em 0 .35em;font-size:1.08em}.card h3 a{text-decoration:none;color:var(--ink)}.card h3 a:hover{color:var(--g2)}
+.muted{color:var(--mut);font-size:.93em}
+.btn{display:inline-block;background:var(--org);color:#fff!important;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700;border:0;cursor:pointer;font-size:1em;font-family:inherit;box-shadow:0 8px 20px rgba(194,90,28,.28);transition:transform .15s}.btn:hover{transform:translateY(-2px)}
+.tier{display:flex;flex-direction:column;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--sh)}.tier p{flex:1}
+.tier.hot{border:2px solid var(--org);box-shadow:0 20px 50px rgba(194,90,28,.16)}.price{font-family:'Fraunces',Georgia,serif;font-size:2.1em;font-weight:700;color:var(--g)}
+form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--sh);max-width:640px}
+label{font-weight:600;font-size:.93em}input,textarea,select{width:100%;padding:12px 14px;margin:6px 0 14px;border:1.5px solid var(--line);border-radius:10px;box-sizing:border-box;font:inherit;background:var(--bg)}
+input:focus,textarea:focus,select:focus{outline:3px solid #f2b54488;border-color:var(--g2)}a:focus-visible,.btn:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+footer{color:#cfe0d8;background:var(--g);font-size:.88em;padding:36px max(20px,calc(50% - 540px));text-align:center;line-height:1.7}footer a{color:var(--amb)}
+.pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 14px;margin:4px 3px;font-size:.92em;text-decoration:none;font-weight:500;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:all .15s}
+.pill:hover{background:var(--g2);color:#fff;border-color:var(--g2)}
+.hero h2{margin-top:0}.hero p:last-child{margin-bottom:0}
+@media(max-width:640px){.logo{flex-basis:100%}.wrap>.hero:first-child{padding:36px 22px}.hero{padding:22px}header{position:static}form{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}"""
 def page(path,title,desc,body,ld=None):
     url=D+'/'+path
     lds=f'<script type="application/ld+json">{json.dumps(ld)}</script>' if ld else ''
     h=f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{url}"><link rel="stylesheet" href="/style.css">{lds}</head><body>
-<header><a class="logo" href="/">NEPA Service Pros</a><a href="/#trades">Find a pro</a><a href="/newsletter/">Newsletter</a><a href="/for-pros/">For pros</a></header>
+<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{url}"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/style.css"><meta name="theme-color" content="#0d3b2e">{lds}</head><body>
+<header><a class="logo" href="/"><svg aria-hidden="true" viewBox="0 0 40 40"><rect width="40" height="40" rx="11" fill="#f2b544"/><path d="M8 30V18l12-9 12 9v12z" fill="#0d3b2e"/><path d="M17 30v-7h6v7" fill="#f2b544"/></svg>NEPA Service Pros</a><a href="/#trades">Find a pro</a><a href="/newsletter/">Newsletter</a><a href="/for-pros/">For pros</a></header>
 <div class="wrap">{body}</div>
 <footer>NEPA Service Pros is a free directory of Northeastern Pennsylvania home-service businesses. Listings are compiled from public business information; we do not copy reviews. Is this your business? <a href="/claim/">Claim or update it free</a>.<br>
 Interregnum Ventures LLC · 91 Price Street Fl 2, Kingston, PA 18704 · <a href="/privacy/">Privacy</a></footer></body></html>"""
@@ -97,5 +119,5 @@ page('privacy/','Privacy | NEPA Service Pros','Privacy policy.','<h1>Privacy</h1
 today=datetime.date.today().isoformat()
 open(f'{OUT}/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{u}</loc><lastmod>{today}</lastmod></url>' for u in pages)+'</urlset>')
 open(f'{OUT}/robots.txt','w').write(f'User-agent: *\nAllow: /\nSitemap: {D}/sitemap.xml\n')
-open(f'{OUT}/CNAME','w').write('nepaservicepros.com\n'); open(f'{OUT}/.nojekyll','w').write('')
+open(f'{OUT}/CNAME','w').write('nepaservicepros.com'); open(f'{OUT}/.nojekyll','w').write('')
 print(len(R),'listings',len(pages),'pages')
